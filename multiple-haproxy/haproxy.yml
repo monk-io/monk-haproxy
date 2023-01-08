@@ -2,6 +2,15 @@ namespace: haproxy
 
 haproxy-common:
   defines: runnable
+  metadata:
+    defines: metadata
+    name: sonarqube
+    description: The Reliable, High Performance TCP/HTTP Load Balancer
+    tags: self hosted, Load balancer
+    website: http://www.haproxy.org/
+    source: https://github.com/haproxy/haproxy
+    publisher: "monk.io"  
+    icon: https://www.vectorlogo.zone/logos/haproxy/haproxy-ar21.png   
   services:
     haproxy:
       container: haproxy

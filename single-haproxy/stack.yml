@@ -3,7 +3,7 @@ namespace: haproxy
 stack:
   defines: process-group
   runnable-list:
-    - haproxy/haproxy
+    - haproxy/haproxy   
   variables:  
     haproxy-port: 8080
     host-port: 8080
