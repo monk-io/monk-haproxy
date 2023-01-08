@@ -5,7 +5,7 @@ stack:
   runnable-list:
     - haproxy/haproxy-1
     - haproxy/haproxy-2
-    - haproxy/haproxy-1
+    - haproxy/haproxy-3 
   variables:  
     haproxy-port: 8080
     host-port: 8080
