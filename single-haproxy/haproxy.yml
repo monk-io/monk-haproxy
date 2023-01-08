@@ -1,0 +1,48 @@
+namespace: haproxy
+
+haproxy:
+  defines: runnable
+  services:
+    haproxy:
+      container: haproxy
+      port: <- `${haproxy-port-number}` to-i
+      protocol: tcp
+      host-port: <- `${host-port-number}` to-i
+  connections:
+    backend:
+      runnable: <- $backend-runnable
+      service: <- $backend-runnable-service
+  containers:
+    defines: containers
+    haproxy:
+      image: 'haproxy'
+      image-tag: <- `${haproxy-image}`
+      ports:
+      - <- `${host-port-number}:${haproxy-port-number}`
+  files:
+    haproxy-conf:
+      container: haproxy
+      mode: 0644
+      path: /usr/local/etc/haproxy/haproxy.cfg
+      contents: <<< files/haproxy.cfg
+  variables: 
+    backend-hostname:
+      type: string
+      value: <- connection-hostname("backend")
+    backend-port:
+      type: string
+      value: <- connection-port("backend")
+    hostport-port-number:
+      type: int
+      value: <- $host-port 
+    haproxy-image:
+      value: <- $haproxy-image-tag
+      type: string
+    haproxy-port-number:
+      value: <- $haproxy-port
+      env: port
+      type: int
+    host-port-number:
+      env: internalport
+      value: <- $host-port
+      type: int         
