@@ -177,7 +177,7 @@ group     haproxy/stack    local       -        -
 ## Stop, remove and clean up workloads and templates
 
 ```bash
-➜ monk purge -x haproxy/stack haproxy/haproxy
+➜ monk purge  --ii --rv --rs --no-confirm --rv --rs haproxy/haproxy haproxy/stack 
 
 ✔ haproxy/haproxy purged
 ✔ haproxy/haproxy purged
