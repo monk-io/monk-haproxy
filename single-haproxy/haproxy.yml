@@ -5,7 +5,14 @@ haproxy:
   metadata:
     defines: metadata
     name: sonarqube
-    description: The Reliable, High Performance TCP/HTTP Load Balancer
+    description: |
+      HAProxy is a free and open-source software that provides load balancing and proxying for TCP and HTTP-based applications. 
+      
+      It is a popular solution for distributing incoming network traffic across multiple servers to ensure high availability, scalability, and reliability of web applications.
+
+      HAProxy acts as an intermediary between clients (such as web browsers) and servers (such as application servers or databases). 
+      
+      It receives incoming requests from clients and forwards them to one or more backend servers based on various algorithms, such as round-robin, least connections, source IP affinity, and more. HAProxy can also perform health checks on backend servers to automatically detect and route traffic away from any unhealthy servers, providing failover capabilities.
     tags: self hosted, Load balancer
     website: http://www.haproxy.org/
     source: https://github.com/haproxy/haproxy
