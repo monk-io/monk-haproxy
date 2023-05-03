@@ -1,4 +1,4 @@
-namespace: haproxy
+namespace: haproxy-cluster
 
 haproxy-common:
   defines: runnable
@@ -62,12 +62,12 @@ haproxy-common:
 
 haproxy-1:
   defines: runnable
-  inherits: haproxy/haproxy-common
+  inherits: haproxy-cluster/haproxy-common
 
 haproxy-2:
   defines: runnable
-  inherits: haproxy/haproxy-common
+  inherits: haproxy-cluster/haproxy-common
 
 haproxy-3:
   defines: runnable
-  inherits: haproxy/haproxy-common
+  inherits: haproxy-cluster/haproxy-common

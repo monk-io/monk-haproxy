@@ -1,11 +1,11 @@
-namespace: haproxy
+namespace: haproxy-cluster
 
 stack:
   defines: process-group
   runnable-list:
-    - haproxy/haproxy-1
-    - haproxy/haproxy-2
-    - haproxy/haproxy-3 
+    - haproxy-cluster/haproxy-1
+    - haproxy-cluster/haproxy-2
+    - haproxy-cluster/haproxy-3 
   variables:  
     haproxy-port: 8080
     host-port: 8080
