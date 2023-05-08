@@ -18,9 +18,9 @@ haproxy-common:
   services:
     haproxy:
       container: haproxy
-      port: <- `${haproxy-port-number}` to-i
+      port: <- `${haproxy-port-number}`
       protocol: tcp
-      host-port: <- `${host-port-number}` to-i
+      host-port: <- `${host-port-number}`
   containers:
     defines: containers
     haproxy:
@@ -37,17 +37,17 @@ haproxy-common:
   variables:
     hostport-port-number:
       type: int
-      value: <- $host-port 
+      value: <- $host-port default(8080)
     haproxy-image:
       value: <- $haproxy-image-tag
       type: string
     haproxy-port-number:
-      value: <- $haproxy-port
+      value: <- $haproxy-port default(8080)
       env: port
       type: int
     host-port-number:
       env: internalport
-      value: <- $host-port
+      value: <- $host-port default(8080)
       type: int         
 
 haproxy-1:
