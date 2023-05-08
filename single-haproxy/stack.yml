@@ -8,5 +8,3 @@ stack:
     haproxy-port: 8080
     host-port: 8080
     haproxy-image-tag: 2.7.1
-    backend-runnable: 
-    backend-runnable-service: 

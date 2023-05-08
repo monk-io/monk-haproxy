@@ -21,10 +21,6 @@ haproxy-common:
       port: <- `${haproxy-port-number}` to-i
       protocol: tcp
       host-port: <- `${host-port-number}` to-i
-  connections:
-    backend:
-      runnable: <- $backend-runnable
-      service: <- $backend-runnable-service
   containers:
     defines: containers
     haproxy:
@@ -38,13 +34,7 @@ haproxy-common:
       mode: 0644
       path: /usr/local/etc/haproxy/haproxy.cfg
       contents: <<< files/haproxy.cfg
-  variables: 
-    backend-hostname:
-      type: string
-      value: <- connection-hostname("backend")
-    backend-port:
-      type: string
-      value: <- connection-port("backend")
+  variables:
     hostport-port-number:
       type: int
       value: <- $host-port 
