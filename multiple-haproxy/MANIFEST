@@ -1,3 +1,0 @@
-REPO monk-haproxy
-LOAD haproxy.yml stack.yml
-RESOURCES files/haproxy.cfg
