@@ -4,7 +4,7 @@ namespace: haproxy
 haproxy:
   defines: runnable
   metadata:
-    name: sonarqube
+    name: haproxy
     description: |
       HAProxy is a free and open-source software that provides load balancing and proxying for TCP and HTTP-based applications.
 

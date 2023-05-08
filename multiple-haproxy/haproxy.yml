@@ -1,33 +1,30 @@
+---
 namespace: haproxy-cluster
 
 haproxy-common:
-  defines: runnable
   metadata:
-    defines: metadata
-    name: sonarqube
+    name: haproxy
     description: |
-      HAProxy is a free and open-source software that provides load balancing and proxying for TCP and HTTP-based applications. 
+      HAProxy is a free and open-source software that provides load balancing and proxying for TCP and HTTP-based applications.
+
       It is a popular solution for distributing incoming network traffic across multiple servers to ensure high availability, scalability, and reliability of web applications.
-      HAProxy acts as an intermediary between clients (such as web browsers) and servers (such as application servers or databases).      
+
+      HAProxy acts as an intermediary between clients (such as web browsers) and servers (such as application servers or databases).
+
       It receives incoming requests from clients and forwards them to one or more backend servers based on various algorithms, such as round-robin, least connections, source IP affinity, and more. HAProxy can also perform health checks on backend servers to automatically detect and route traffic away from any unhealthy servers, providing failover capabilities.
-    tags: self hosted, Load balancer
+    tags: HAProxy, Load Balancing, High Availability, Proxy Server, TCP Load Balancing, HTTP Load Balancing, SSL Termination, Reverse Proxy, Content Switching, Layer 7 Load Balancing, Server Health Monitoring, Scalability, Performance Optimization, Open Source Software, Application Delivery, TCP/HTTP Routing, Frontend and Backend Configuration, ACLs
     website: http://www.haproxy.org/
     source: https://github.com/haproxy/haproxy
-    publisher: "monk.io"  
-    icon: https://www.vectorlogo.zone/logos/haproxy/haproxy-ar21.png   
-  services:
-    haproxy:
-      container: haproxy
-      port: <- `${haproxy-port-number}`
-      protocol: tcp
-      host-port: <- `${host-port-number}`
+    publisher: monk.io
+    icon: https://www.vectorlogo.zone/logos/haproxy/haproxy-ar21.png
+    source: https://github.com/haproxy/haproxy
+    private: true
   containers:
-    defines: containers
     haproxy:
-      image: 'haproxy'
-      image-tag: <- `${haproxy-image}`
+      image: haproxy
+      image-tag: <- $haproxy-image default("2.7.1")
       cap-add:
-        - CAP_NET_BIND_SERVICE      
+        - CAP_NET_BIND_SERVICE
   files:
     haproxy-conf:
       container: haproxy
@@ -35,29 +32,45 @@ haproxy-common:
       path: /usr/local/etc/haproxy/haproxy.cfg
       contents: <<< files/haproxy.cfg
   variables:
-    hostport-port-number:
-      type: int
-      value: <- $host-port default(8080)
     haproxy-image:
-      value: <- $haproxy-image-tag
       type: string
+      value: <- $haproxy-image-tag default("2.7.1")
     haproxy-port-number:
-      value: <- $haproxy-port default(8080)
-      env: port
       type: int
-    host-port-number:
-      env: internalport
-      value: <- $host-port default(8080)
-      type: int         
+      value: <- $haproxy-port default(8080)
+    hostname:
+      type: string
+      value: <- $backend-hostname default("1.1.1.1")
+    port:
+      type: string
+      value: <- $backend-port default("443")
 
 haproxy-1:
   defines: runnable
   inherits: haproxy-cluster/haproxy-common
+  services:
+    haproxy:
+      container: haproxy
+      port: <- $haproxy-port-number
+      protocol: tcp
+      host-port: <- $host-port-1 default(8080)
 
 haproxy-2:
   defines: runnable
   inherits: haproxy-cluster/haproxy-common
+  services:
+    haproxy:
+      container: haproxy
+      port: <- $haproxy-port-number
+      protocol: tcp
+      host-port: <- $host-port-2 default(8080)
 
 haproxy-3:
   defines: runnable
   inherits: haproxy-cluster/haproxy-common
+  services:
+    haproxy:
+      container: haproxy
+      port: <- $haproxy-port-number
+      protocol: tcp
+      host-port: <- $host-port-3 default(8080)

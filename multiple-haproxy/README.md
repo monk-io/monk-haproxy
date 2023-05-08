@@ -2,10 +2,9 @@
 
 This repository contains Monk.io template to deploy HAproxy system either locally or on cloud of your choice (AWS, GCP, Azure, Digital Ocean).
 
-
 ## Start
 
-Set up Monk - https://docs.monk.io/docs/monk-in-10/
+Set up Monk - [https://docs.monk.io/docs/monk-in-10/](https://docs.monk.io/docs/monk-in-10/)
 
 Start `monkd` and login.
 
@@ -15,7 +14,8 @@ monk login --email=<email> --password=<password>
 
 ## Clone Monk HAproxy repository
 
-In order to load templates and change configuration simply use below commands: 
+In order to load templates and change configuration simply use below commands:
+
 ```bash
 git clone https://github.com/monk-io/monk-haproxy
 
@@ -42,29 +42,24 @@ The current variables can be found in `stack.yaml/variables` section
 
 You can find configuration file (haproxy.cfg) in `/files` directory in repository and can edit before the running kit.
 
+| Configuration File | Format Used | Directory in Container               | Purpose                                                                                         |
+| ------------------ | ----------- | ------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| **haproxy.cfg**    | XML         | `/usr/local/etc/haproxy/haproxy.cfg` | The haproxy.cfg file defines some global configuration options that apply to all or many cores. |
 
-| Configuration File	 | Format Used | Directory in Container | Purpose 
-|----------|-------------|------|---------|
-| **haproxy.cfg** | XML | `/usr/local/etc/haproxy/haproxy.cfg` | The haproxy.cfg file defines some global configuration options that apply to all or many cores.
+## Template variables
 
-
-##  Template variables
-
-| Variable | Description | Type | Example |
-|----------|-------------|------|---------|
-| **haproxy-port** | HAproxy port. | int | 8080 |
-| **host-port:** |  HAproxy nodeport | string | 8080 |
-| **haproxy-image-tag** | HAproxy image version. | string | 2.7.1 |
-| **backend-runnable** | backend runnable path. | string | N/A |
-| **backend-runnable-service** | backend runnable service name. | string | N/A |
-
-
-
+| Variable                     | Description                    | Type   | Example |
+| ---------------------------- | ------------------------------ | ------ | ------- |
+| **haproxy-port**             | HAproxy port.                  | int    | 8080    |
+| **host-port:**               | HAproxy nodeport               | string | 8080    |
+| **haproxy-image-tag**        | HAproxy image version.         | string | 2.7.1   |
+| **backend-runnable**         | backend runnable path.         | string | N/A     |
+| **backend-runnable-service** | backend runnable service name. | string | N/A     |
 
 ## Local Deployment
 
-First clone the repository and simply run below command after launching `monkd`:
-:
+| First clone the repository and simply run below command after launching `monkd`: |
+| :------------------------------------------------------------------------------: |
 
 ```bash
 ➜  monk load MANIFEST
@@ -99,8 +94,7 @@ group     haproxy/stack           local       -        -
 
 ```
 
-This will start the entire haproxy/stack. 
-
+This will start the entire haproxy/stack.
 
 ## Cloud Deployment
 
@@ -142,6 +136,7 @@ Your cluster has been created successfully.
 ```
 
 Once cluster is ready execute the same command as for local and select your cluster (the option will appear automatically).
+
 ```bash
 ➜  monk load MANIFEST
 

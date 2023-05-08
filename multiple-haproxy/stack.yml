@@ -1,12 +1,47 @@
+---
 namespace: haproxy-cluster
 
 stack:
   defines: process-group
+  metadata:
+    name: haproxy
+    description: |
+      HAProxy is a free and open-source software that provides load balancing and proxying for TCP and HTTP-based applications.
+
+      It is a popular solution for distributing incoming network traffic across multiple servers to ensure high availability, scalability, and reliability of web applications.
+
+      HAProxy acts as an intermediary between clients (such as web browsers) and servers (such as application servers or databases).
+
+      It receives incoming requests from clients and forwards them to one or more backend servers based on various algorithms, such as round-robin, least connections, source IP affinity, and more. HAProxy can also perform health checks on backend servers to automatically detect and route traffic away from any unhealthy servers, providing failover capabilities.
+    tags: HAProxy, Load Balancing, High Availability, Proxy Server, TCP Load Balancing, HTTP Load Balancing, SSL Termination, Reverse Proxy, Content Switching, Layer 7 Load Balancing, Server Health Monitoring, Scalability, Performance Optimization, Open Source Software, Application Delivery, TCP/HTTP Routing, Frontend and Backend Configuration, ACLs
+    website: http://www.haproxy.org/
+    source: https://github.com/haproxy/haproxy
+    publisher: monk.io
+    icon: https://www.vectorlogo.zone/logos/haproxy/haproxy-ar21.png
+    source: https://github.com/haproxy/haproxy
   runnable-list:
     - haproxy-cluster/haproxy-1
     - haproxy-cluster/haproxy-2
-    - haproxy-cluster/haproxy-3 
-  variables:  
-    haproxy-port: 8080
-    host-port: 8080
-    haproxy-image-tag: 2.7.1
+    - haproxy-cluster/haproxy-3
+  variables:
+    haproxy-image-tag:
+      type: string
+      value: 2.7.1
+    haproxy-port:
+      type: int
+      value: 8080
+    host-port-1:
+      value: 8080
+      type: int
+    host-port-2:
+      value: 8080
+      type: int
+    host-port-3:
+      value: 8080
+      type: int
+    backend-hostname:
+      type: string
+      value: 1.1.1.1
+    backend-port:
+      type: string
+      value: 443
