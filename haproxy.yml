@@ -13,7 +13,7 @@ haproxy:
       HAProxy acts as an intermediary between clients (such as web browsers) and servers (such as application servers or databases).
 
       It receives incoming requests from clients and forwards them to one or more backend servers based on various algorithms, such as round-robin, least connections, source IP affinity, and more. HAProxy can also perform health checks on backend servers to automatically detect and route traffic away from any unhealthy servers, providing failover capabilities.
-    tags: HAProxy, Load Balancing, High Availability, Proxy Server, TCP Load Balancing, HTTP Load Balancing, SSL Termination, Reverse Proxy, Content Switching, Layer 7 Load Balancing, Server Health Monitoring, Scalability, Performance Optimization, Open Source Software, Application Delivery, TCP/HTTP Routing, Frontend and Backend Configuration, ACLs
+    tags: reverse proxy, content switching, tcp/http routing, http load balancing, application delivery, high availability, acls, haproxy, scalability, frontend and backend configuration, layer 7 load balancing, proxy server, ssl termination, performance optimization, server health monitoring, tcp load balancing
     website: http://www.haproxy.org/
     source: https://github.com/haproxy/haproxy
     publisher: monk.io
