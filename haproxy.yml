@@ -18,7 +18,6 @@ haproxy:
     source: https://github.com/haproxy/haproxy
     publisher: monk.io
     icon: https://www.vectorlogo.zone/logos/haproxy/haproxy-ar21.png
-    source: https://github.com/haproxy/haproxy
   services:
     haproxy:
       container: haproxy
