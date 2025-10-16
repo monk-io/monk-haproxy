@@ -1,0 +1,145 @@
+---
+title: HAProxy
+description: Ready-to-run HAProxy container template you can run directly or inherit to integrate a high-performance load balancer and proxy into your infrastructure.
+primary_category: networking
+tags: [haproxy, load-balancer, proxy, template, runnable, high-availability, reverse-proxy]
+integration_type: template
+hosting_models: [self-hosted]
+website_url: https://www.haproxy.org/
+docs_url: https://docs.haproxy.org/
+publisher: monk.io
+---
+
+## Overview
+
+This template provides a production‑ready HAProxy instance as a Monk runnable. You can:
+
+- Run it directly to get a managed HAProxy load balancer with sensible defaults
+- Inherit it in your own runnable to seamlessly add load balancing and high availability to your services
+
+HAProxy is a free, very fast and reliable solution offering high availability, load balancing, and proxying for TCP and HTTP-based applications. It is particularly suited for high traffic web sites and can handle 100K+ concurrent connections.
+
+## What this template manages
+
+- HAProxy container (`haproxy` image, configurable tag)
+- Network service on port 8080 (configurable)
+- Custom HAProxy configuration file
+- Backend server routing and health checking
+- Connection timeouts and load balancing algorithms
+
+## Quick start (run directly)
+
+1) Load templates
+
+```bash
+monk load MANIFEST
+```
+
+2) Run HAProxy with defaults
+
+```bash
+monk run haproxy/haproxy
+```
+
+3) Customize backend servers (recommended via inheritance)
+
+Running directly uses the defaults defined in this template's `variables`. To point HAProxy at your own backend servers:
+
+- Preferred: inherit and override variables with your backend configuration as shown below.
+- Alternative: fork/clone and edit the `variables` in `haproxy.yml`, then `monk load MANIFEST` and run.
+
+Once started, HAProxy will listen on port 8080 (or the configured `host-port-number`) and forward traffic to the configured backend servers.
+
+## Configuration
+
+Key variables you can customize in this template:
+
+```yaml
+variables:
+  haproxy-image: "2.7.1"          # container image tag
+  haproxy-port-number: 8080       # internal service port
+  host-port-number: 8080          # host-exposed port
+  backend-hostname: "1.1.1.1"     # backend server address
+  backend-port: "443"             # backend server port
+```
+
+The HAProxy configuration file (`haproxy.cfg`) is located in the `files/` directory and can be customized before running. The template uses Monk's variable substitution (`{{ v "variable-name" }}`) to inject runtime configuration.
+
+## Use by inheritance (recommended for apps)
+
+Inherit the HAProxy runnable in your application to add load balancing. Example:
+
+```yaml
+namespace: myapp
+loadbalancer:
+  defines: runnable
+  inherits: haproxy/haproxy
+  variables:
+    backend-hostname: <- connection-hostname("backend")
+    backend-port: "8080"
+backend:
+  defines: runnable
+  containers:
+    app:
+      image: myorg/app
+  services:
+    api:
+      container: app
+      port: 8080
+      protocol: tcp
+  connections:
+    proxy:
+      runnable: loadbalancer
+      service: haproxy
+```
+
+Then run your app group:
+
+```bash
+monk run myapp/backend
+```
+
+For multiple backends or advanced routing, customize the `haproxy.cfg` file to define multiple backend servers, health checks, and routing rules.
+
+## Ports and connectivity
+
+- Service: `haproxy` on TCP port `8080` (configurable via `haproxy-port-number`)
+- Host exposure: Port `8080` (configurable via `host-port-number`)
+- From other runnables in the same process group, use `connection-hostname("<connection-name>")` to resolve the load balancer.
+
+## Persistence and configuration
+
+- Configuration file: `files/haproxy.cfg` - mounted to `/usr/local/etc/haproxy/haproxy.cfg` in the container
+- The configuration supports Monk variable interpolation for dynamic backend configuration
+- No persistent data storage required (HAProxy is stateless)
+
+## Features
+
+- Layer 4 (TCP) and Layer 7 (HTTP) load balancing
+- SSL/TLS termination
+- Health checking with automatic failover
+- Sticky sessions (session affinity)
+- Advanced routing and URL rewriting
+- ACL-based traffic rules
+- High performance (100K+ concurrent connections)
+- Built-in DNS resolution for dynamic backends
+
+## Related templates
+
+- See other templates in this repository for complementary services
+- Combine with monitoring tools (`prometheus-grafana/`) for observability
+- Use with application servers (`nginx/`, `apache/`) for complete web stack
+- Integrate with your application stack as needed
+
+## Troubleshooting
+
+- Check logs:
+
+```bash
+monk logs -l 500 -f haproxy/haproxy
+```
+
+- If backend servers are not responding, verify the `backend-hostname` and `backend-port` values match your backend configuration.
+- Ensure backend servers are reachable from the HAProxy container's network.
+- For custom configurations, validate your `haproxy.cfg` syntax before running.
+
